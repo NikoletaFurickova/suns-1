@@ -46,17 +46,26 @@ def loadImages(path):
 def divideTrainingFiles(training_fruit):
     training_set = []
     validation_set = []
-    min = len(training_fruit[0])
+    min = 447
 
     for fruit in training_fruit:
         random.shuffle(fruit)
-        if (len(fruit) < min):
-            min = len(fruit)
 
     for fruit in training_fruit:
         training_set.append(fruit[:(int(min*0.8))])
         validation_set.append(fruit[((-int(min*0.2)))-1:])
     return training_set, validation_set
+
+
+def divideTestingFiles(testing_fruit):
+    testing_set = []
+    min = 151
+
+    for fruit in testing_fruit:
+        random.shuffle(fruit)
+        testing_set.append(fruit[:min])
+    return testing_set
+
 
 
 def createPickleFile(pathDirectory, fruit_set, val):
@@ -88,6 +97,8 @@ def loadPickleFile(pathDirectory,val):
             name = file.name.split("/")
             label = name[len(name)-1]
 
+            print(len(result))
+
             while(count < 150 and count<len(result)):
                 displayPicture(result[count], label)
                 count = count + 1
@@ -116,17 +127,20 @@ def displayPicture(img, label):
 
 
 
+#true je 1 ovocie 1 pickle file false je vsetky v jednom
+
 
 # training_fruit = loadImages("/home/suns/Desktop/fruits-360 (copy)/Training/")
-# testing_set = loadImages("/home/suns/Desktop/fruits-360 (copy)/Test/")
+testing_fruit = loadImages("/home/suns/Desktop/fruits-360 (copy)/Test/")
+testing_set = divideTestingFiles(testing_fruit)
 # training_set, validation_set = divideTrainingFiles(training_fruit)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData", training_set, True)
-# createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, True)
+createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, True)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/ValidationData", validation_set, True)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData", training_set, False)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, False)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/ValidationData", validation_set, False)
-loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData/Apple",True)
+# loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData/Mango",True)
 
 
 
