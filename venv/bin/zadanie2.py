@@ -8,6 +8,8 @@ import random
 import pickle
 import math
 import time
+from sklearn.cluster import KMeans
+from numpy  import array
 
 def loadPickleFile(pathDirectory,val):
     try:
@@ -43,20 +45,43 @@ def euclideanDistance(fruit):
     distance = []
     for i in range(0,len(fruit)-2):
         for j in range (i+1,len(fruit)-1):
-            distance.append(np.linalg.norm(np.squeeze(fruit[i])-np.squeeze(fruit[j])))
+            distance.append(np.linalg.norm(np.squeeze(fruit[i])-np.squeeze(fruit[j]))) ##a = np.array() a.flatten
             count += 1
     print(time.time() - start)
     return distance
 
-path = "/home/suns/Desktop/fruits-360 (copy)/TestData/"
-files = os.listdir(path)
-for file in files:
-    print(file)
-    fruit = loadPickleFile(path+file,True)
-    distance = euclideanDistance(fruit)
-    with open(file+".txt", 'w') as f:
-        for item in distance:
-            f.write("%s\n" % item)
+
+def createDataforTxt():
+    path = "/home/suns/Desktop/fruits-360 (copy)/TestData/"
+    files = os.listdir(path)
+    for file in files:
+        print(file)
+        fruit = loadPickleFile(path+file,True)
+        distance = euclideanDistance(fruit)
+        with open(file+".txt", 'w') as f:
+            for item in distance:
+                f.write("%s\n" % item)
+
+
+def countKMeans(fr):
+    fruit = array(fr)
+    # print(fruit)
+    # fruit = np.squeeze(fruit)
+    # fruit = np.squeeze(fruit)
+    # a = fruit.size
+    # b = len(fruit[0])
+    # a = int(a/b)
+    print("***************************************************")
+    # print(fruit)
+    #print(fruit[1])
+    # kmeans = KMeans(n_clusters=2).fit(fruit.reshape(a,b))
+    # with open("subor.txt") as f:
+    #     for i in kmeans.labels_:
+    #         print(i)
+    #print(kmeans.cluster_centers_)
+    f = fruit.reshape((-1, 3*100*100))
+    kmeans = KMeans(n_clusters=3, verbose=1).fit(f)
+    print(kmeans.cluster_centers_)
 
 
 # distance = [1,2,3,5,6,5,7,2,4,6]
@@ -70,3 +95,6 @@ for file in files:
 # maxfreq = distance.max()
 # # Set a clean upper y-axis limit.
 # plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
+
+result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Apple", True)
+countKMeans(result)
