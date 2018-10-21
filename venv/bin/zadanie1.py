@@ -97,9 +97,9 @@ def loadPickleFile(pathDirectory,val):
             name = file.name.split("/")
             label = name[len(name)-1]
 
-            print(len(result))
+            # print(len(result))
 
-            while(count < 150 and count<len(result)):
+            while(count < 10 and count<len(result)):
                 displayPicture(result[count], label)
                 count = count + 1
 
@@ -116,14 +116,33 @@ def loadPickleFile(pathDirectory,val):
             return result
 
     except Exception as e:
-        print(e)
+        print(e.with_traceback())
+
 
 def displayPicture(img, label):
     try:
         cv2.imshow(label, img)
         cv2.waitKey(100)
     except Exception as e:
-        print(e)
+        print(e.with_traceback())
+
+def createBigPickleFileNoLabels(path):
+    result = []
+    files = os.listdir(path)
+    for file in files:
+        res = loadPickleFile(path+file,True)
+        result.append(res[0])
+        result.append(res[1])
+        result.append(res[2])
+        result.append(res[3])
+
+
+    random.shuffle(result)
+    pickle_file = open(path+"/Pickle_file", "wb")
+    pickle.dump(result, pickle_file)
+    pickle_file.close()
+    print("pickle file created")
+
 
 
 
@@ -131,16 +150,20 @@ def displayPicture(img, label):
 
 
 # training_fruit = loadImages("/home/suns/Desktop/fruits-360 (copy)/Training/")
-testing_fruit = loadImages("/home/suns/Desktop/fruits-360 (copy)/Test/")
-testing_set = divideTestingFiles(testing_fruit)
+# testing_fruit = loadImages("/home/suns/Desktop/fruits-360 (copy)/Test/")
+# testing_set = divideTestingFiles(testing_fruit)
 # training_set, validation_set = divideTrainingFiles(training_fruit)
+
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData", training_set, True)
-createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, True)
+# createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, True)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/ValidationData", validation_set, True)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData", training_set, False)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData", testing_set, False)
 # createPickleFile("/home/suns/Desktop/fruits-360 (copy)/ValidationData", validation_set, False)
 # loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TrainData/Mango",True)
+
+createBigPickleFileNoLabels("/home/suns/Desktop/fruits-360 (copy)/TestData/")
+# loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Pickle_file",True)
 
 
 

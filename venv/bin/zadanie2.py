@@ -62,6 +62,13 @@ def createDataforTxt():
             for item in distance:
                 f.write("%s\n" % item)
 
+def displayPicture(img, label):
+    try:
+        cv2.imshow(label, img)
+        cv2.waitKey(100)
+        time.sleep(2)
+    except Exception as e:
+        print(e.with_traceback())
 
 def countKMeans(fr):
     fruit = array(fr)
@@ -96,5 +103,7 @@ def countKMeans(fr):
 # # Set a clean upper y-axis limit.
 # plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
 
-result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Apple", True)
+# result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Apple", True)
+result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Pickle_file", True)
+#displayPicture(result[3],"bla")
 countKMeans(result)
