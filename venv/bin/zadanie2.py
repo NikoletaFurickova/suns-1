@@ -96,18 +96,38 @@ def countKMeans(fr):
     #     for i in kmeans.labels_:
     #         print(i)
     #print(kmeans.cluster_centers_)
-######DOBRE
-    X = fruit.reshape((-1, 3*100*100))
-    kmeans = KMeans(n_clusters=48)
-    kmeans.fit(X)
-    y_kmeans = kmeans.predict(X)
+######DOBRE SKORO
+    # X = fruit.reshape((-1, 3*100*100)).astype(np.float32)
+    # kmeans = KMeans(n_clusters=48)
+    # kmeans.fit(X)
+    # y_kmeans = kmeans.predict(X)
+    # #
+    # # plt.scatter()
     #
-    # plt.scatter()
+    #
+    # plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
+    # centers = kmeans.cluster_centers_
+    # plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+    # plt.show()
+######RASTO
+    X = fruit.reshape((-1, 3*100*100)).astype(np.float32)
+    # kmeans = KMeans(n_clusters=48)
+    # kmeans.fit(X)
+    pca = PCA(n_components=3).fit(X)
+    pca_2d = pca.transform(X)
 
+    plt.figure("PLOT")
+    plt.scatter(pca_2d[:,0], pca_2d[:,1])
 
-    plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
+    kmeans = KMeans(n_clusters=48, random_state=111)
+    kmeans.fit(pca_2d)
+
+    plt.figure("KMEANS")
+    plt.scatter(pca_2d[:,0],pca_2d[:,1],c = kmeans.labels_)
+
     centers = kmeans.cluster_centers_
-    plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+    pca = PCA().fit(X)
+    plt.scatter(centers[:, 0], centers[:, 1], marker='x', s=169, linewidths=30, color='pink', zorder=10)
     plt.show()
 
 

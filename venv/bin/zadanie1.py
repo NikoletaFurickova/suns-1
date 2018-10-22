@@ -99,9 +99,9 @@ def loadPickleFile(pathDirectory,val):
 
             # print(len(result))
 
-            while(count < 10 and count<len(result)):
-                displayPicture(result[count], label)
-                count = count + 1
+            # while(count < 10 and count<len(result)):
+            #     displayPicture(result[count], label)
+            #     count = count + 1
 
             file.close()
             cv2.destroyAllWindows()
@@ -131,17 +131,9 @@ def createBigPickleFileNoLabels(path):
     files = os.listdir(path)
     for file in files:
         res = loadPickleFile(path+file,True)
-        result.append(res[0])
-        result.append(res[1])
-        result.append(res[2])
-        result.append(res[3])
-        result.append(res[4])
-        result.append(res[5])
-        result.append(res[6])
-        result.append(res[7])
-        result.append(res[8])
-        result.append(res[9])
-        result.append(res[10])
+        for i in range(0,49):
+            result.append(res[i])
+
 
 
     random.shuffle(result)
