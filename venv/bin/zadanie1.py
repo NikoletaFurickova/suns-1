@@ -135,6 +135,13 @@ def createBigPickleFileNoLabels(path):
         result.append(res[1])
         result.append(res[2])
         result.append(res[3])
+        result.append(res[4])
+        result.append(res[5])
+        result.append(res[6])
+        result.append(res[7])
+        result.append(res[8])
+        result.append(res[9])
+        result.append(res[10])
 
 
     random.shuffle(result)

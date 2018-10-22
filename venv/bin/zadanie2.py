@@ -10,6 +10,16 @@ import math
 import time
 from sklearn.cluster import KMeans
 from numpy  import array
+from sklearn import cluster, datasets
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+#import matplotlib
+#matplotlib.use("agg")
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets.samples_generator import make_blobs
+
+
 
 def loadPickleFile(pathDirectory,val):
     try:
@@ -86,9 +96,22 @@ def countKMeans(fr):
     #     for i in kmeans.labels_:
     #         print(i)
     #print(kmeans.cluster_centers_)
-    f = fruit.reshape((-1, 3*100*100))
-    kmeans = KMeans(n_clusters=3, verbose=1).fit(f)
-    print(kmeans.cluster_centers_)
+######DOBRE
+    X = fruit.reshape((-1, 3*100*100))
+    kmeans = KMeans(n_clusters=48)
+    kmeans.fit(X)
+    y_kmeans = kmeans.predict(X)
+    #
+    # plt.scatter()
+
+
+    plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
+    centers = kmeans.cluster_centers_
+    plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+    plt.show()
+
+
+
 
 
 # distance = [1,2,3,5,6,5,7,2,4,6]
