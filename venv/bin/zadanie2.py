@@ -13,11 +13,10 @@ from numpy  import array
 from sklearn import cluster, datasets
 from sklearn.decomposition import PCA
 from sklearn.datasets import load_iris
-#import matplotlib
-#matplotlib.use("agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.datasets.samples_generator import make_blobs
+from sklearn.cluster import DBSCAN
 
 
 
@@ -81,38 +80,12 @@ def displayPicture(img, label):
         print(e.with_traceback())
 
 def countKMeans(fr):
+    start = time.time()
+    print("start of KMeans")
+    print("size ",len(fr))
     fruit = array(fr)
-    # print(fruit)
-    # fruit = np.squeeze(fruit)
-    # fruit = np.squeeze(fruit)
-    # a = fruit.size
-    # b = len(fruit[0])
-    # a = int(a/b)
-    print("***************************************************")
-    # print(fruit)
-    #print(fruit[1])
-    # kmeans = KMeans(n_clusters=2).fit(fruit.reshape(a,b))
-    # with open("subor.txt") as f:
-    #     for i in kmeans.labels_:
-    #         print(i)
-    #print(kmeans.cluster_centers_)
-######DOBRE SKORO
-    # X = fruit.reshape((-1, 3*100*100)).astype(np.float32)
-    # kmeans = KMeans(n_clusters=48)
-    # kmeans.fit(X)
-    # y_kmeans = kmeans.predict(X)
-    # #
-    # # plt.scatter()
-    #
-    #
-    # plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
-    # centers = kmeans.cluster_centers_
-    # plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
-    # plt.show()
-######RASTO
     X = fruit.reshape((-1, 3*100*100)).astype(np.float32)
-    # kmeans = KMeans(n_clusters=48)
-    # kmeans.fit(X)
+
     pca = PCA(n_components=3).fit(X)
     pca_2d = pca.transform(X)
 
@@ -126,27 +99,43 @@ def countKMeans(fr):
     plt.scatter(pca_2d[:,0],pca_2d[:,1],c = kmeans.labels_)
 
     centers = kmeans.cluster_centers_
-    pca = PCA().fit(X)
     plt.scatter(centers[:, 0], centers[:, 1], marker='x', s=169, linewidths=30, color='pink', zorder=10)
+    print("end of KMeans")
+    print(time.time()-start)
+    plt.show()
+
+
+
+def countDBSCAN(fr):
+    start = time.time()
+    print("start of DBSCAN")
+    print("size ",len(fr))
+
+    fruit = array(fr)
+    X = fruit.reshape((-1, 3*100*100)).astype(np.float32)
+
+    pca = PCA(n_components=15).fit(X)
+    pca_2d = pca.transform(X)
+
+    plt.figure("PLOT")
+    plt.scatter(pca_2d[:,0], pca_2d[:,1])
+
+    dbscan = DBSCAN(eps=3, min_samples=2)
+    dbscan.fit(pca_2d)
+
+    plt.figure("DBSCAN")
+    plt.scatter(pca_2d[:,0],pca_2d[:,1],c = dbscan.labels_)
+
+    # centers = dbscan.core_sample_indices_
+    # plt.scatter(centers[:, 0], centers[:, 1], marker='x', s=169, linewidths=30, color='pink', zorder=10)
+    print("end of DBSCAN")
+    print(time.time()-start)
     plt.show()
 
 
 
 
-
-# distance = [1,2,3,5,6,5,7,2,4,6]
-# n, bins, patches = plt.hist(x=d, bins='auto', color='#0504aa',
-#                             alpha=0.7, rwidth=0.85)
-# plt.grid(axis='y', alpha=0.75)
-# plt.xlabel('Value')
-# plt.ylabel('Frequency')
-# plt.title('My Very Own Histogram')
-# plt.text(23, 45, r'$\mu=15, b=3$')
-# maxfreq = distance.max()
-# # Set a clean upper y-axis limit.
-# plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
-
 # result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Apple", True)
 result = loadPickleFile("/home/suns/Desktop/fruits-360 (copy)/TestData/Pickle_file", True)
-#displayPicture(result[3],"bla")
-countKMeans(result)
+#countKMeans(result)
+countDBSCAN(result)

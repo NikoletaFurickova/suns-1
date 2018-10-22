@@ -131,7 +131,7 @@ def createBigPickleFileNoLabels(path):
     files = os.listdir(path)
     for file in files:
         res = loadPickleFile(path+file,True)
-        for i in range(0,49):
+        for i in range(0,100):
             result.append(res[i])
 
 
